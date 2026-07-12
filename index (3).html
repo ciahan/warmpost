@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WarmPost — Handmade Cards for Elders</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400;1,600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+
+:root{
+  --rose:    #C2625C;
+  --rose-dk: #A04E49;
+  --rose-lt: #F7EDEC;
+  --rose-md: #E8C4C1;
+  --sage:    #6B8F72;
+  --sage-lt: #EAF0EB;
+  --amber:   #C4893A;
+  --amber-lt:#FAF0E2;
+  --ink:     #2A1F1C;
+  --ink-mid: #6B5550;
+  --ink-lt:  #A89490;
+  --cream:   #FDF8F3;
+  --cream-dk:#F5EDE4;
+  --white:   #FFFFFF;
+  --border:  #E8DDD8;
+}
+
+body{font-family:'Inter',sans-serif;background:var(--cream);color:var(--ink);line-height:1.7;}
+a{color:inherit;text-decoration:none;}
+
+/* ── NAV ── */
+nav{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1.25rem 2.5rem;
+  border-bottom:1px solid var(--border);
+  background:rgba(253,248,243,0.95);
+  backdrop-filter:blur(8px);
+  position:sticky;top:0;z-index:20;
+}
+.nav-logo{
+  font-family:'Lora',serif;font-size:1.3rem;font-weight:600;
+  color:var(--rose);letter-spacing:-0.01em;
+  display:flex;align-items:center;gap:0.5rem;
+}
+.nav-links{display:flex;gap:2rem;font-size:0.875rem;color:var(--ink-mid);}
+.nav-links a:hover{color:var(--rose);}
+.nav-cta{
+  background:var(--rose);color:var(--white)!important;
+  padding:0.5rem 1.4rem;border-radius:999px;
+  font-size:0.875rem;font-weight:500;
+  transition:background 0.2s,transform 0.15s;
+}
+.nav-cta:hover{background:var(--rose-dk)!important;transform:translateY(-1px);}
+
+/* ── HERO ── */
+.hero{
+  position:relative;
+  padding:5rem 2rem 4.5rem;
+  text-align:center;
+  overflow:hidden;
+  background:var(--cream);
+}
+.hero-bg{
+  position:absolute;inset:0;
+  background:radial-gradient(ellipse 80% 60% at 50% 0%, #F2E4DC 0%, transparent 70%);
+  pointer-events:none;
+}
+.hero-flora-left{
+  position:absolute;left:-20px;top:40px;
+  opacity:0.55;pointer-events:none;
+}
+.hero-flora-right{
+  position:absolute;right:-20px;top:20px;
+  opacity:0.55;pointer-events:none;transform:scaleX(-1);
+}
+.hero-inner{position:relative;max-width:640px;margin:0 auto;}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:0.4rem;
+  font-size:0.8125rem;font-weight:500;
+  letter-spacing:0.07em;text-transform:uppercase;
+  color:var(--sage);background:var(--sage-lt);
+  padding:0.35rem 1rem;border-radius:999px;
+  margin-bottom:1.75rem;
+  border:1px solid #C8DCC9;
+}
+.hero h1{
+  font-family:'Lora',serif;
+  font-size:clamp(2.1rem,5.5vw,3.25rem);
+  font-weight:600;line-height:1.15;
+  color:var(--ink);margin-bottom:1.25rem;
+  letter-spacing:-0.025em;
+}
+.hero h1 em{font-style:italic;color:var(--rose);}
+.hero-sub{
+  font-size:1.0625rem;color:var(--ink-mid);
+  max-width:460px;margin:0 auto 2.75rem;line-height:1.85;
+}
+.hero-actions{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;}
+.btn-primary{
+  background:var(--rose);color:var(--white);
+  padding:0.9rem 2.1rem;border-radius:999px;
+  font-size:0.9375rem;font-weight:500;
+  transition:background 0.2s,transform 0.15s,box-shadow 0.15s;
+  display:inline-block;
+}
+.btn-primary:hover{background:var(--rose-dk);transform:translateY(-2px);box-shadow:0 6px 20px rgba(194,98,92,0.28);}
+.btn-outline{
+  background:transparent;color:var(--ink-mid);
+  padding:0.9rem 2.1rem;border-radius:999px;
+  font-size:0.9375rem;font-weight:500;
+  border:1.5px solid var(--border);
+  transition:border-color 0.2s,color 0.2s,transform 0.15s;
+  display:inline-block;
+}
+.btn-outline:hover{border-color:var(--rose);color:var(--rose);transform:translateY(-1px);}
+
+/* ── CARD STRIP ── */
+.strip{
+  background:var(--white);
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+  padding:3rem 2rem;
+  overflow:hidden;
+}
+.strip-label{
+  text-align:center;font-size:0.8125rem;
+  color:var(--ink-lt);letter-spacing:0.05em;
+  text-transform:uppercase;margin-bottom:2rem;
+}
+.cards-row{
+  display:flex;gap:1.5rem;justify-content:center;
+  flex-wrap:wrap;
+}
+.card-tile{
+  width:136px;height:190px;border-radius:10px;
+  border:1px solid var(--border);
+  flex-shrink:0;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:0.6rem;
+  padding:0.75rem 0.5rem 0.6rem;
+  box-shadow:0 2px 8px rgba(42,31,28,0.06),0 1px 2px rgba(42,31,28,0.04);
+  transition:transform 0.25s,box-shadow 0.25s;
+}
+.card-tile:hover{transform:translateY(-4px) rotate(0deg)!important;box-shadow:0 8px 24px rgba(42,31,28,0.1);}
+.card-tile:nth-child(1){background:#FDF5F0;transform:rotate(-2.5deg);}
+.card-tile:nth-child(2){background:#F0F6F2;transform:rotate(1.5deg);}
+.card-tile:nth-child(3){background:#FEF0F0;transform:rotate(-1deg);}
+.card-tile:nth-child(4){background:#F0F4FE;transform:rotate(2deg);}
+.card-tile:nth-child(5){background:#F8F0FD;transform:rotate(-2deg);}
+.card-tile svg{width:68px;height:68px;}
+.card-sig{
+  font-family:'Lora',serif;font-style:italic;
+  font-size:0.625rem;color:var(--ink-lt);
+  text-align:center;line-height:1.5;
+}
+
+/* ── WAVY DIVIDER ── */
+.wave-div{display:block;width:100%;height:32px;margin:0;}
+
+/* ── HOW IT WORKS ── */
+.section{max-width:680px;margin:0 auto;padding:5.5rem 2rem;}
+.section-eyebrow{
+  display:inline-flex;align-items:center;gap:0.5rem;
+  font-size:0.8125rem;font-weight:500;
+  letter-spacing:0.07em;text-transform:uppercase;
+  color:var(--amber);margin-bottom:0.9rem;
+}
+.section h2{
+  font-family:'Lora',serif;
+  font-size:clamp(1.6rem,3vw,2.1rem);
+  font-weight:600;color:var(--ink);
+  margin-bottom:3rem;line-height:1.3;
+  letter-spacing:-0.015em;
+}
+.steps{display:flex;flex-direction:column;gap:0;}
+.step{
+  display:grid;grid-template-columns:52px 1fr;
+  gap:1.25rem;padding-bottom:2.75rem;position:relative;
+}
+.step:not(:last-child)::before{
+  content:'';position:absolute;
+  left:25px;top:52px;
+  width:1px;height:calc(100% - 32px);
+  background:linear-gradient(to bottom,var(--rose-md),var(--border));
+}
+.step-num{
+  width:52px;height:52px;border-radius:50%;
+  background:var(--rose-lt);
+  border:1.5px solid var(--rose-md);
+  color:var(--rose);
+  font-family:'Lora',serif;font-size:1.1875rem;font-weight:600;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.step-body{padding-top:0.7rem;}
+.step-body h3{
+  font-family:'Lora',serif;
+  font-size:1.0625rem;font-weight:600;
+  color:var(--ink);margin-bottom:0.4rem;
+}
+.step-body p{font-size:0.9375rem;color:var(--ink-mid);line-height:1.75;}
+
+/* ── ORIGIN / STORY ── */
+.origin-wrap{
+  background:var(--cream-dk);
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+  position:relative;overflow:hidden;
+}
+.origin-flora{
+  position:absolute;right:-30px;bottom:-20px;
+  opacity:0.3;pointer-events:none;
+}
+.origin{max-width:680px;margin:0 auto;padding:5.5rem 2rem;position:relative;}
+.origin blockquote{
+  font-family:'Lora',serif;font-size:1.2rem;font-style:italic;
+  color:var(--ink);line-height:1.8;
+  border-left:3px solid var(--rose);
+  padding-left:1.75rem;margin-bottom:1.75rem;
+}
+.origin-attr{font-size:0.875rem;color:var(--ink-lt);}
+.origin-attr strong{color:var(--ink-mid);font-weight:500;}
+
+/* ── WHO CAN SUBMIT ── */
+.who{background:var(--white);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+.who-inner{max-width:680px;margin:0 auto;padding:5.5rem 2rem;}
+.who-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:1.25rem;margin-top:2.75rem;
+}
+@media(max-width:500px){
+  .who-grid{grid-template-columns:1fr;}
+}
+.who-card{
+  background:var(--cream);
+  border:1px solid var(--border);
+  border-radius:16px;padding:1.75rem 1.5rem;
+  transition:box-shadow 0.2s,transform 0.2s;
+}
+.who-card:hover{box-shadow:0 6px 20px rgba(42,31,28,0.09);transform:translateY(-3px);}
+.who-icon{
+  width:46px;height:46px;border-radius:50%;
+  background:var(--rose-lt);
+  border:1px solid var(--rose-md);
+  margin-bottom:1.1rem;
+  display:flex;align-items:center;justify-content:center;
+}
+.who-card h4{
+  font-family:'Lora',serif;font-size:1rem;
+  font-weight:600;color:var(--ink);margin-bottom:0.5rem;
+}
+.who-card p{font-size:0.875rem;color:var(--ink-mid);line-height:1.7;}
+
+/* ── STATS ── */
+.stats-wrap{
+  background:var(--rose-lt);
+  border-bottom:1px solid var(--rose-md);
+}
+.stats{
+  max-width:680px;margin:0 auto;
+  padding:4rem 2rem;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:2rem;text-align:center;
+}
+.stat-num{
+  font-family:'Lora',serif;font-size:2.5rem;
+  font-weight:600;color:var(--rose);
+  line-height:1;margin-bottom:0.6rem;
+}
+.stat-label{font-size:0.875rem;color:var(--ink-mid);line-height:1.55;}
+
+/* ── CTA ── */
+.cta-wrap{
+  background:var(--rose);position:relative;overflow:hidden;
+}
+.cta-flora-l{position:absolute;left:-40px;top:-20px;opacity:0.18;pointer-events:none;}
+.cta-flora-r{position:absolute;right:-40px;bottom:-20px;opacity:0.18;pointer-events:none;transform:scaleX(-1);}
+.cta-section{
+  max-width:600px;margin:0 auto;
+  padding:6rem 2rem;text-align:center;position:relative;
+}
+.cta-section h2{
+  font-family:'Lora',serif;
+  font-size:clamp(1.6rem,3.5vw,2.4rem);
+  font-weight:600;color:var(--white);
+  margin-bottom:1.1rem;letter-spacing:-0.02em;line-height:1.25;
+}
+.cta-section p{
+  font-size:1rem;color:rgba(255,255,255,0.88);
+  max-width:400px;margin:0 auto 2.75rem;line-height:1.85;
+}
+.btn-white{
+  background:var(--white);color:var(--rose);
+  padding:0.9rem 2.25rem;border-radius:999px;
+  font-size:0.9375rem;font-weight:500;
+  display:inline-block;
+  transition:transform 0.15s,box-shadow 0.15s;
+}
+.btn-white:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(0,0,0,0.15);}
+
+/* ── FOOTER ── */
+footer{
+  border-top:1px solid var(--border);
+  padding:2.5rem 2rem;text-align:center;
+  background:var(--white);
+}
+.footer-logo{
+  font-family:'Lora',serif;font-size:1.1rem;
+  font-weight:600;color:var(--rose);margin-bottom:0.6rem;
+}
+footer p{font-size:0.8125rem;color:var(--ink-lt);line-height:2;}
+footer a{color:var(--rose);}
+
+/* ── BOTANICAL SPRIG DIVIDER ── */
+.sprig-div{
+  display:flex;align-items:center;gap:1rem;
+  max-width:300px;margin:0 auto;padding:1rem 0;
+}
+.sprig-line{flex:1;height:1px;background:var(--border);}
+
+@media(max-width:600px){
+  nav{padding:1rem 1.25rem;}
+  .nav-links{display:none;}
+  .card-tile:nth-child(4),.card-tile:nth-child(5){display:none;}
+  .hero-flora-left,.hero-flora-right{display:none;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2C7 2 4 5 4 8c0 4 6 10 6 10s6-6 6-10c0-3-3-6-6-6z" fill="#C2625C" opacity="0.9"/><circle cx="10" cy="8" r="2.5" fill="#fff" opacity="0.9"/></svg>
+    WarmPost
+  </div>
+  <div class="nav-links">
+    <a href="#how">How it works</a>
+    <a href="#who">Who can submit</a>
+    <a href="#story">Our story</a>
+  </div>
+  <a href="YOUR_GOOGLE_FORM_LINK_HERE" class="nav-cta">Submit a card</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+
+  <!-- Left botanical -->
+  <div class="hero-flora-left">
+    <svg width="180" height="260" viewBox="0 0 180 260" fill="none">
+      <path d="M60 240 Q50 180 70 140 Q90 100 60 60" stroke="#C2625C" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.6"/>
+      <ellipse cx="45" cy="100" rx="22" ry="14" fill="#E8C4C1" opacity="0.5" transform="rotate(-30 45 100)"/>
+      <ellipse cx="75" cy="120" rx="18" ry="11" fill="#C4893A" opacity="0.3" transform="rotate(20 75 120)"/>
+      <ellipse cx="50" cy="145" rx="20" ry="12" fill="#6B8F72" opacity="0.4" transform="rotate(-15 50 145)"/>
+      <ellipse cx="80" cy="80" rx="16" ry="10" fill="#E8C4C1" opacity="0.45" transform="rotate(25 80 80)"/>
+      <circle cx="60" cy="60" r="5" fill="#C2625C" opacity="0.5"/>
+      <circle cx="45" cy="100" r="3" fill="#C4893A" opacity="0.6"/>
+      <circle cx="50" cy="145" r="3.5" fill="#6B8F72" opacity="0.5"/>
+      <path d="M60 240 Q40 200 30 170" stroke="#6B8F72" stroke-width="1" fill="none" stroke-linecap="round" opacity="0.4"/>
+      <ellipse cx="28" cy="158" rx="14" ry="9" fill="#6B8F72" opacity="0.35" transform="rotate(-25 28 158)"/>
+    </svg>
+  </div>
+
+  <!-- Right botanical -->
+  <div class="hero-flora-right">
+    <svg width="180" height="260" viewBox="0 0 180 260" fill="none">
+      <path d="M60 240 Q50 180 70 140 Q90 100 60 60" stroke="#C2625C" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.6"/>
+      <ellipse cx="45" cy="100" rx="22" ry="14" fill="#E8C4C1" opacity="0.5" transform="rotate(-30 45 100)"/>
+      <ellipse cx="75" cy="120" rx="18" ry="11" fill="#C4893A" opacity="0.3" transform="rotate(20 75 120)"/>
+      <ellipse cx="50" cy="145" rx="20" ry="12" fill="#6B8F72" opacity="0.4" transform="rotate(-15 50 145)"/>
+      <ellipse cx="80" cy="80" rx="16" ry="10" fill="#E8C4C1" opacity="0.45" transform="rotate(25 80 80)"/>
+      <circle cx="60" cy="60" r="5" fill="#C2625C" opacity="0.5"/>
+      <circle cx="45" cy="100" r="3" fill="#C4893A" opacity="0.6"/>
+      <circle cx="50" cy="145" r="3.5" fill="#6B8F72" opacity="0.5"/>
+    </svg>
+  </div>
+
+  <div class="hero-inner">
+    <div class="hero-eyebrow">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1C4 1 2 3 2 5c0 2.5 4 7 4 7s4-4.5 4-7c0-2-2-4-4-4z" fill="#6B8F72"/></svg>
+      Handmade cards for elders
+    </div>
+    <h1>Your art, <em>hand-delivered</em><br>to someone who needs it</h1>
+    <p class="hero-sub">WarmPost connects student artists worldwide with elders in local communities. Draw a card, submit it here, and we'll print and personally deliver it to a senior at one of our partner nursing homes.</p>
+    <div class="hero-actions">
+      <a href="YOUR_GOOGLE_FORM_LINK_HERE" class="btn-primary">Submit your card</a>
+      <a href="#how" class="btn-outline">See how it works</a>
+    </div>
+  </div>
+</section>
+
+<!-- CARD STRIP -->
+<div class="strip">
+  <p class="strip-label">Cards submitted by student artists around the world</p>
+  <div class="cards-row">
+
+    <div class="card-tile">
+      <svg viewBox="0 0 68 68" fill="none">
+        <circle cx="34" cy="28" r="13" fill="#F5C4B3" opacity="0.65"/>
+        <circle cx="34" cy="28" r="7" fill="#D85A30" opacity="0.5"/>
+        <path d="M20 48 Q34 40 48 48" stroke="#D85A30" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+        <circle cx="18" cy="46" r="3" fill="#F5C4B3" opacity="0.7"/>
+        <circle cx="50" cy="46" r="3" fill="#F5C4B3" opacity="0.7"/>
+        <path d="M26 18 Q30 14 34 18 Q38 14 42 18" stroke="#E8C4C1" stroke-width="1" fill="none" stroke-linecap="round"/>
+      </svg>
+      <div class="card-sig">Emma, 15<br>Austin, Texas</div>
+    </div>
+
+    <div class="card-tile">
+      <svg viewBox="0 0 68 68" fill="none">
+        <path d="M18 50 Q22 18 34 16 Q46 18 50 50" fill="#9FE1CB" opacity="0.35"/>
+        <circle cx="26" cy="26" r="5" fill="#1D9E75" opacity="0.55"/>
+        <circle cx="42" cy="22" r="4" fill="#1D9E75" opacity="0.45"/>
+        <circle cx="34" cy="32" r="6" fill="#5DCAA5" opacity="0.5"/>
+        <path d="M34 16 L34 50" stroke="#0F6E56" stroke-width="1.2" opacity="0.35" stroke-linecap="round"/>
+        <path d="M22 38 Q28 34 34 38 Q40 34 46 38" stroke="#0F6E56" stroke-width="0.8" fill="none" opacity="0.4" stroke-linecap="round"/>
+      </svg>
+      <div class="card-sig">Yuki, 17<br>Tokyo, Japan</div>
+    </div>
+
+    <div class="card-tile">
+      <svg viewBox="0 0 68 68" fill="none">
+        <path d="M34 18 C26 26 18 28 22 38 C26 48 42 48 46 38 C50 28 42 26 34 18Z" fill="#F4C0D1" opacity="0.55"/>
+        <circle cx="34" cy="36" r="5" fill="#D4537E" opacity="0.4"/>
+        <path d="M34 18 L34 30" stroke="#993556" stroke-width="1" opacity="0.45"/>
+        <circle cx="28" cy="24" r="2.5" fill="#ED93B1" opacity="0.65"/>
+        <circle cx="40" cy="24" r="2.5" fill="#ED93B1" opacity="0.65"/>
+        <path d="M26 46 Q34 50 42 46" stroke="#D4537E" stroke-width="0.8" fill="none" opacity="0.5" stroke-linecap="round"/>
+      </svg>
+      <div class="card-sig">Sofia, 16<br>Madrid, Spain</div>
+    </div>
+
+    <div class="card-tile">
+      <svg viewBox="0 0 68 68" fill="none">
+        <rect x="16" y="18" width="36" height="32" rx="5" fill="#B5D4F4" opacity="0.4"/>
+        <path d="M16 28 L52 28" stroke="#378ADD" stroke-width="0.8" opacity="0.4"/>
+        <circle cx="24" cy="23" r="2" fill="#378ADD" opacity="0.55"/>
+        <circle cx="34" cy="40" r="5" fill="#185FA5" opacity="0.3"/>
+        <path d="M24 36 Q34 32 44 36" stroke="#185FA5" stroke-width="1.2" fill="none" stroke-linecap="round" opacity="0.55"/>
+        <path d="M20 44 Q34 48 48 44" stroke="#85B7EB" stroke-width="0.8" fill="none" opacity="0.4" stroke-linecap="round"/>
+      </svg>
+      <div class="card-sig">Liam, 14<br>Dublin, Ireland</div>
+    </div>
+
+    <div class="card-tile">
+      <svg viewBox="0 0 68 68" fill="none">
+        <circle cx="34" cy="34" r="16" fill="#EEEDFE" opacity="0.55"/>
+        <path d="M26 34 Q34 22 42 34 Q34 46 26 34Z" fill="#7F77DD" opacity="0.4"/>
+        <circle cx="34" cy="34" r="4" fill="#534AB7" opacity="0.45"/>
+        <circle cx="22" cy="30" r="2" fill="#AFA9EC" opacity="0.65"/>
+        <circle cx="46" cy="30" r="2" fill="#AFA9EC" opacity="0.65"/>
+        <circle cx="34" cy="18" r="2.5" fill="#CECBF6" opacity="0.7"/>
+        <circle cx="34" cy="50" r="2.5" fill="#CECBF6" opacity="0.7"/>
+      </svg>
+      <div class="card-sig">Ciara, 17<br>Olney, Maryland</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<section class="section" id="how">
+  <p class="section-eyebrow">
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1C4.5 1 2 3.5 2 6c0 3.5 5 8 5 8s5-4.5 5-8c0-2.5-2.5-5-5-5z" fill="#C4893A"/><circle cx="7" cy="6" r="2" fill="#fff"/></svg>
+    How it works
+  </p>
+  <h2>From your hands<br>to their windowsill</h2>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <h3>Draw an original card</h3>
+        <p>Two ways to create — both equally welcome. <strong>Hand-drawn:</strong> use any paper and any medium — pencil, watercolor, marker, colored pencil. <strong>Digital:</strong> draw by hand on a tablet with a stylus using any drawing app. Either way, sign your first name and city on the card in your own handwriting. That signature is what makes it real.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <h3>Submit it here</h3>
+        <p>Upload your card through our submission form. Tell us your name, where you're from, and what your card is about. We review every submission — only original, human-made artwork is accepted. No AI, ever.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <h3>We print and hand-deliver it</h3>
+        <p>Your card is printed on card stock and personally delivered to an elder at one of our partner nursing homes in Maryland. We'll email you when it arrives so you know your card reached someone.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STORY / ORIGIN -->
+<div class="origin-wrap" id="story">
+  <div class="origin-flora">
+    <svg width="220" height="220" viewBox="0 0 220 220" fill="none">
+      <path d="M110 200 Q90 150 100 110 Q110 70 90 30" stroke="#C2625C" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.5"/>
+      <ellipse cx="75" cy="80" rx="28" ry="18" fill="#E8C4C1" opacity="0.4" transform="rotate(-30 75 80)"/>
+      <ellipse cx="110" cy="100" rx="24" ry="15" fill="#6B8F72" opacity="0.35" transform="rotate(20 110 100)"/>
+      <ellipse cx="80" cy="130" rx="26" ry="16" fill="#C4893A" opacity="0.3" transform="rotate(-15 80 130)"/>
+      <circle cx="90" cy="30" r="6" fill="#C2625C" opacity="0.45"/>
+      <circle cx="75" cy="80" r="4" fill="#C4893A" opacity="0.5"/>
+      <circle cx="80" cy="130" r="4" fill="#6B8F72" opacity="0.45"/>
+    </svg>
+  </div>
+  <div class="origin">
+    <p class="section-eyebrow" style="color:var(--rose);">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 2.5C5 4 3 5.5 3 7.5c0 2 1.5 3.5 4 3.5s4-1.5 4-3.5c0-2-2-3.5-4-5z" fill="#C2625C" opacity="0.8"/></svg>
+      Why WarmPost exists
+    </p>
+    <h2>Every number in a dataset<br>is someone's story</h2>
+    <blockquote>
+      "During my visits to nursing homes, I noticed some residents eagerly waiting for visitors while others spent long periods sitting quietly by themselves. I wondered — can something as simple as a handmade card remind someone that they are not forgotten?"
+    </blockquote>
+    <p class="origin-attr">— <strong>Ciara Feng</strong>, founder of WarmPost and Generations in Tune</p>
+  </div>
+</div>
+
+<!-- WHO CAN SUBMIT -->
+<div class="who" id="who">
+  <div class="who-inner">
+    <p class="section-eyebrow" style="color:var(--sage);">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5" fill="#6B8F72" opacity="0.8"/><path d="M5 7 Q7 4 9 7 Q7 10 5 7Z" fill="#fff" opacity="0.7"/></svg>
+      Who can submit
+    </p>
+    <h2>Anyone, anywhere<br>in the world</h2>
+    <p style="color:var(--ink-mid);font-size:0.9375rem;margin-top:-1.5rem;">No art experience required — just a genuine card made by hand.</p>
+    <div class="who-grid">
+
+      <div class="who-card">
+        <div class="who-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M6 18 Q9 8 12 6 Q15 8 18 18" stroke="#C2625C" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+            <circle cx="12" cy="6" r="3" fill="#E8C4C1"/>
+            <path d="M8 14 Q12 11 16 14" stroke="#C2625C" stroke-width="1" fill="none" stroke-linecap="round" opacity="0.5"/>
+          </svg>
+        </div>
+        <h4>Hand-drawn artists</h4>
+        <p>Pencil, marker, watercolor, colored pencil, pen — draw on any paper you have and photograph it in good lighting. No scanner needed.</p>
+      </div>
+
+      <div class="who-card">
+        <div class="who-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <rect x="3" y="5" width="16" height="12" rx="2.5" stroke="#C2625C" stroke-width="1.6" fill="none"/>
+            <path d="M9 12 Q12 9 15 12" stroke="#C2625C" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+            <circle cx="20" cy="13" r="2" fill="#E8C4C1"/>
+            <path d="M19 13 L21 11" stroke="#C2625C" stroke-width="1.2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h4>Digital illustrators</h4>
+        <p>Draw by hand on a tablet with a stylus — Procreate, Adobe Fresco, or any drawing app. Must be hand-drawn, never AI-generated.</p>
+      </div>
+
+      <div class="who-card">
+        <div class="who-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="12" r="8" stroke="#C2625C" stroke-width="1.6" fill="none"/>
+            <path d="M4 12 Q12 8 20 12" stroke="#C2625C" stroke-width="1" fill="none" opacity="0.55" stroke-linecap="round"/>
+            <path d="M4 12 Q12 16 20 12" stroke="#C2625C" stroke-width="1" fill="none" opacity="0.55" stroke-linecap="round"/>
+            <path d="M12 4 L12 20" stroke="#C2625C" stroke-width="0.8" opacity="0.4" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h4>International students</h4>
+        <p>Submit from anywhere in the world. Tokyo, Dublin, São Paulo — your card will be printed and personally delivered in Maryland, USA.</p>
+      </div>
+
+      <div class="who-card">
+        <div class="who-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M12 3 L14 9 L20 9 L15 13 L17 19 L12 15 L7 19 L9 13 L4 9 L10 9 Z" stroke="#C2625C" stroke-width="1.5" fill="none" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h4>Any age or grade</h4>
+        <p>Middle school, high school, college, or beyond. No art experience required — just something genuine made by hand for a stranger who will treasure it.</p>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats-wrap">
+  <div class="stats">
+    <div>
+      <div class="stat-num">3</div>
+      <div class="stat-label">Partner nursing homes<br>in Maryland</div>
+    </div>
+    <div>
+      <div class="stat-num">✦</div>
+      <div class="stat-label">Every card reviewed<br>by a real person</div>
+    </div>
+    <div>
+      <div class="stat-num">0</div>
+      <div class="stat-label">AI-generated cards<br>ever accepted</div>
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="cta-wrap">
+  <div class="cta-flora-l">
+    <svg width="220" height="280" viewBox="0 0 220 280" fill="none">
+      <path d="M80 260 Q60 200 80 160 Q100 120 70 70" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <ellipse cx="55" cy="110" rx="30" ry="18" fill="#fff" transform="rotate(-25 55 110)"/>
+      <ellipse cx="90" cy="135" rx="25" ry="15" fill="#fff" transform="rotate(20 90 135)"/>
+      <ellipse cx="60" cy="165" rx="28" ry="17" fill="#fff" transform="rotate(-15 60 165)"/>
+      <circle cx="70" cy="70" r="7" fill="#fff"/>
+    </svg>
+  </div>
+  <div class="cta-flora-r">
+    <svg width="220" height="280" viewBox="0 0 220 280" fill="none">
+      <path d="M80 260 Q60 200 80 160 Q100 120 70 70" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <ellipse cx="55" cy="110" rx="30" ry="18" fill="#fff" transform="rotate(-25 55 110)"/>
+      <ellipse cx="90" cy="135" rx="25" ry="15" fill="#fff" transform="rotate(20 90 135)"/>
+      <ellipse cx="60" cy="165" rx="28" ry="17" fill="#fff" transform="rotate(-15 60 165)"/>
+      <circle cx="70" cy="70" r="7" fill="#fff"/>
+    </svg>
+  </div>
+  <div class="cta-section">
+    <h2>Your card is waiting<br>to be made</h2>
+    <p>It takes one piece of paper, a few minutes, and something you already know how to do. Someone you've never met will keep it on their windowsill.</p>
+    <a href="YOUR_GOOGLE_FORM_LINK_HERE" class="btn-white">Submit your card</a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">WarmPost</div>
+  <p>Inspired by <a href="#">Generations in Tune</a> &nbsp;·&nbsp; Founded by Ciara Feng &nbsp;·&nbsp; Maryland, USA</p>
+  <p>Questions? <a href="mailto:warmpost@example.com">warmpost@example.com</a></p>
+</footer>
+
+</body>
+</html>
